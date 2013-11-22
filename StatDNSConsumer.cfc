@@ -39,16 +39,16 @@
 			}
 	
 			if(structkeyexists(arguments,"domain") and len(arguments.domain)) { 
-				domain(arguments.domain);
+				this.domain(arguments.domain);
 			}
 			if(structkeyexists(arguments,"ipv4") and len(arguments.ipv4)) { 
-				ipv4(arguments.ipv4);
+				this.ipv4(arguments.ipv4);
 			}
 			if(structkeyexists(arguments,"ipv6") and len(arguments.ipv6)) { 
-				ipv6(arguments.ipv6);
+				this.ipv6(arguments.ipv6);
 			}
 			if(structkeyexists(arguments,"arpa") and len(arguments.arpa)) { 
-				arpa(arguments.arpa);
+				this.arpa(arguments.arpa);
 			}			
 			if(structkeyexists(arguments,"httptimeout")) { // override default timeout for http requests
 				variables.config.httptimeout = arguments.httptimeout;
@@ -555,6 +555,7 @@
 		<cfset var response = "">
 		
 		<cfhttp url="#arguments.uri#" method="get" result="response" redirect="true" throwonerror="false" timeout="#variables.config.httptimeout#">
+		<cfset response = duplicate(response)>
 		<cfset response.uri = arguments.uri>
 		
 		<cfreturn response>
@@ -602,7 +603,7 @@
 									ttl = local.f["ttl"],
 									data = local.f["rdata"],
 									datalength = local.f["rdlength"]
-								}
+								};
 								arrayappend(response.authoritative,local.a);
 							}							
 						}						
@@ -617,7 +618,7 @@
 									ttl = local.f["ttl"],
 									data = local.f["rdata"],
 									datalength = local.f["rdlength"]
-								}
+								};
 								arrayappend(response.results,local.a);
 								if(local.a.type eq response.inquiry.type) {
 									response.result = listappend(response.result,local.a.data);
